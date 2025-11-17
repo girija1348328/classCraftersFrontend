@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import { Home, BookOpen, Users, Settings, ChevronLeft, ChevronRight,School } from "lucide-react"; 
+import { Home, BookOpen, Users, Settings, ChevronLeft, ChevronRight,School,Receipt } from "lucide-react"; 
 import logo from "@/assets/logo.png";
 
 const Sidebar = () => {
@@ -14,6 +14,7 @@ const Sidebar = () => {
     { href: "/users", label: "Users", icon: <Users size={20} /> },
     { href: "/students", label: "Students", icon: <Users size={20} /> },
     { href: "/teachers", label: "Staff", icon: <Users size={20} /> },
+    { href: "/payment", label: "Payment", icon: <Receipt size={20} /> },
     { href: "/settings", label: "Settings", icon: <Settings size={20} /> },
   ];
 

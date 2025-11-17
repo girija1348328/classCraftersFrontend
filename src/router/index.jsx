@@ -5,6 +5,7 @@ import UsersPage from "../pages/users";
 import RolesPage from "../pages/roles";
 import StudentPage from "../pages/students";
 import ClassroomPage from "../pages/classroom";
+import PaymentPage from "../pages/payment";
 import ManageClassroom from "../pages/classroom/manageClassroom/manageClassroom";
 import HorizontalLayout from "@/layouts/horizontal";
 
@@ -18,6 +19,7 @@ const AppRouter = () => (
         <Route path="/students" element={<StudentPage />} />
         <Route path="/classrooms" element={<ClassroomPage />} />
         <Route path="/manage-classrooms/:id" element={<ManageClassroom />} />
+        <Route path="/payment" element={<PaymentPage />} />
         {/* Add more routes here as needed */}
       </Routes>
     </HorizontalLayout>
