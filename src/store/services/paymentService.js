@@ -12,3 +12,14 @@ export const getFeeStructures = async () => {
   );
   return res.data;
 }
+
+export const getFeeStructureById = async (id) => {
+  const res = await axios.get(`${API_BASE_URL}/fee-structures/${id}/full`,
+    {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }
+  );
+  return res.data;
+}
