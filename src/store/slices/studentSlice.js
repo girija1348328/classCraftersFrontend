@@ -25,14 +25,14 @@ export const deleteStudent = createAsyncThunk("students/delete", async (id) => {
 const studentSlice = createSlice({
   name: "students",
   initialState: {
-    data: [],
+    list: [],
     status: "idle",
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchStudents.fulfilled, (state, action) => {
-        state.list = action.payload;
+        state.list = action.payload.data.registrations;
       })
       .addCase(addStudent.fulfilled, (state, action) => {
         state.list.push(action.payload);

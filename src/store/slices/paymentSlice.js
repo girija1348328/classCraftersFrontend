@@ -26,11 +26,24 @@ export const fetchFeeStructureById = createAsyncThunk(
   }
 );
 
+export const fetchPaymentsByInstitutionId = createAsyncThunk(
+  "payment/getPaymentsByInstitutionId",
+  async (institutionId, { rejectWithValue }) => { 
+    try {
+      const response = await paymentService.getPaymentsByInstitutionId(institutionId);
+      return response;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const paymentSlice = createSlice({
   name: "payment",
   initialState: {
     payments: [],
     fullStructureById:[],
+    paymentsByInstitutionId: [],
     loading: false,
     error: null,
     },
@@ -64,6 +77,21 @@ const paymentSlice = createSlice({
             // You can handle the fetched fee structure by ID here if needed
         })
         .addCase(fetchFeeStructureById.rejected, (state, action) => {
+            state.loading = false;
+            state.error = action.payload;
+        });
+
+        // FETCH PAYMENTS BY INSTITUTION ID
+        builder
+        .addCase(fetchPaymentsByInstitutionId.pending, (state) => {
+            state.loading = true;
+            state.error = null;
+        })
+        .addCase(fetchPaymentsByInstitutionId.fulfilled, (state, action) => {
+            state.loading = false;
+            state.paymentsByInstitutionId = action.payload;
+        })
+        .addCase(fetchPaymentsByInstitutionId.rejected, (state, action) => {
             state.loading = false;
             state.error = action.payload;
         });

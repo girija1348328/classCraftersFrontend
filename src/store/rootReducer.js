@@ -7,6 +7,10 @@ import jitsiReducer from "./slices/jitsiSlice";
 import classRoomReducer from "./slices/classRoomSlice";
 import assignmentReducer from "./slices/assignmentSlice";
 import paymentReducer from "./slices/paymentSlice";
+import institutionReducer from "./slices/institutionSlice";
+import phaseReducer from "./slices/phaseSlice";
+import subGroupReducer from "./slices/subGroupSlice";
+
 // import courseReducer from "./slices/courseSlice";
 
 const rootReducer = combineReducers({
@@ -18,6 +22,9 @@ auth: authReducer,
 student: studentReducer,
 assignment: assignmentReducer,
 payment: paymentReducer,
+institution: institutionReducer,
+phase: phaseReducer,
+subGroup: subGroupReducer,
 //   course: courseReducer,
 });
 

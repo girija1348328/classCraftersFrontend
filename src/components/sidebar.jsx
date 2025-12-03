@@ -1,21 +1,68 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { Home, BookOpen, Users, Settings, ChevronLeft, ChevronRight,School,Receipt } from "lucide-react"; 
+import { motion, AnimatePresence } from "framer-motion";
+import {
+  Home,
+  BookOpen,
+  Users,
+  Settings,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  School,
+  Receipt,
+} from "lucide-react";
 import logo from "@/assets/logo.png";
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(true);
+  const [openMenu, setOpenMenu] = useState(null); // for sub-sidebar
+
+  const toggleSubMenu = (label) => {
+    setOpenMenu(openMenu === label ? null : label);
+  };
 
   const menuItems = [
     { href: "/", label: "Dashboard", icon: <Home size={20} /> },
-    { href: "/classrooms", label: "Classrooms", icon: <School size={20} /> },
-    { href: "/courses", label: "Courses", icon: <BookOpen size={20} /> },
-    { href: "/roles", label: "Roles", icon: <Users size={20} /> },
-    { href: "/users", label: "Users", icon: <Users size={20} /> },
-    { href: "/students", label: "Students", icon: <Users size={20} /> },
-    { href: "/teachers", label: "Staff", icon: <Users size={20} /> },
-    { href: "/payment", label: "Payment", icon: <Receipt size={20} /> },
-    { href: "/settings", label: "Settings", icon: <Settings size={20} /> },
+
+    {
+      label: "Classrooms",
+      icon: <School size={20} />,
+      children: [
+        { href: "/classrooms/list", label: "All Classrooms" },
+        // { href: "/classrooms/add", label: "Add Classroom" },
+        // { href: "/classrooms/sections", label: "Sections" },
+      ],
+    },
+
+    {
+      label: "Students",
+      icon: <Users size={20} />,
+      children: [
+        { href: "/students/list", label: "Student List" },
+        { href: "/students/admission", label: "Admissions" },
+        { href: "/students/attendance", label: "Attendance" },
+      ],
+    },
+
+    {
+      label: "Payment",
+      icon: <Receipt size={20} />,
+      children: [
+        { href: "/payment/fee-structure", label: "Fee Structure" },
+        { href: "/payment/payments", label: "Payments" },
+        { href: "/payment/history", label: "History" },
+      ],
+    },
+
+    { href: "/settings", 
+      label: "Settings", 
+      icon: <Settings size={20} />,
+      children: [
+        { href: "/settings/profile", label: "Profile" },
+        { href: "/settings/account", label: "Account" },
+      ],
+    },
   ];
 
   return (
@@ -24,7 +71,7 @@ const Sidebar = () => {
       transition={{ duration: 0.3, type: "spring", stiffness: 100 }}
       className="bg-[#D3C9B6] border-r min-h-screen flex flex-col py-6 px-2 shadow relative"
     >
-      {/* Toggle Button */}
+      {/* Collapse Button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="absolute -right-3 top-6 bg-white border rounded-full shadow p-1"
@@ -50,29 +97,71 @@ const Sidebar = () => {
       </div>
 
       {/* Menu */}
-      <nav className="flex flex-col gap-3">
-        {menuItems.map((item, i) => (
-          <motion.a
-            key={i}
-            href={item.href}
-            className="flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 font-medium"
-            whileHover={{ scale: 1.05 }}
-          >
-            {item.icon}
-            {isOpen && <span>{item.label}</span>}
-          </motion.a>
-        ))}
+      <nav className="flex flex-col gap-2">
+        {menuItems.map((item, i) => {
+          const hasChildren = item.children && item.children.length > 0;
+          const isSubOpen = openMenu === item.label;
+
+          return (
+            <div key={i}>
+              {/* MAIN ITEM */}
+              <motion.div
+                onClick={() => (hasChildren ? toggleSubMenu(item.label) : null)}
+                className={`flex items-center justify-between text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 cursor-pointer ${
+                  !isOpen ? "justify-center" : ""
+                }`}
+                whileHover={{ scale: 1.03 }}
+              >
+                <div className="flex items-center gap-3">
+                  {item.icon}
+                  {isOpen && <span>{item.label}</span>}
+                </div>
+
+                {isOpen && hasChildren && (
+                  <>
+                    {isSubOpen ? (
+                      <ChevronUp size={18} />
+                    ) : (
+                      <ChevronDown size={18} />
+                    )}
+                  </>
+                )}
+              </motion.div>
+
+              {/* SUB MENU */}
+              <AnimatePresence>
+                {isSubOpen && isOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    className="ml-10 mt-1 flex flex-col gap-1"
+                  >
+                    {item.children.map((sub, j) => (
+                      <a
+                        key={j}
+                        href={sub.href}
+                        className="text-sm text-gray-600 hover:text-[#557A66] hover:bg-gray-200/40 rounded px-2 py-1"
+                      >
+                        {sub.label}
+                      </a>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          );
+        })}
       </nav>
 
       {/* Footer */}
       {isOpen && (
         <motion.div
-          className="mt-auto pt-6 text-xs text-gray-400 text-center"
+          className="mt-auto pt-6 text-xs text-gray-600 text-center"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.2 }}
         >
-          &copy; {new Date().getFullYear()} ClassCrafters
+          © {new Date().getFullYear()} ClassCrafters
         </motion.div>
       )}
     </motion.aside>

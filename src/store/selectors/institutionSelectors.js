@@ -1,0 +1,1 @@
+export const selectInstitutions = (state) => state.institution.institutions;

@@ -23,3 +23,14 @@ export const getFeeStructureById = async (id) => {
   );
   return res.data;
 }
+
+export const getPaymentsByInstitutionId = async (institutionId) => {
+  const res = await axios.get(`${API_BASE_URL}/fee-payments/payments/institution/${institutionId}`,
+    {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+    },
+  }
+  );
+  return res.data;
+}

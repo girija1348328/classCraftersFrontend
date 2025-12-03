@@ -4,7 +4,7 @@
 export const selectStudentState = (state) => state.student;
 
 // Get list of students
-export const selectStudents = (state) => state.student.data;
+export const selectStudents = (state) => state.student.list || [];
 
 // Get loading status
 export const selectStudentsLoading = (state) => state.student.loading;

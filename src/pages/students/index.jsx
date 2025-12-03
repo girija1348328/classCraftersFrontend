@@ -7,6 +7,10 @@ import {
     addStudent,
     updateStudent,
 } from "../../store/slices/studentSlice"; // adjust path
+import { fetchAllUser } from "../../store/slices/userSlice";
+import { fetchInstitutions } from "../../store/slices/institutionSlice";
+import { fetchPhases } from "../../store/slices/phaseSlice";
+import { fetchSubGroups } from "../../store/slices/subGroupSlice";
 import {
     Card,
     CardHeader,
@@ -24,15 +28,33 @@ import {
     TableCell,
 } from "@/components/ui/table";
 import { selectStudents } from "../../store/selectors/studentSelectors";
+import { selectUser } from "../../store/selectors/userSelectors";
+import { selectPhases } from "../../store/selectors/phaseSelectors";
+import { selectInstitutions } from "../../store/selectors/institutionSelectors";
+import { selectSubGroups } from "../../store/selectors/subGroupSelectors";
+
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectGroup,
+    SelectLabel,
+    SelectItem,
+    SelectValue,
+} from "@/components/ui/select";
+
 
 export default function StudentRegistration() {
     const dispatch = useDispatch();
     const students = useSelector(selectStudents);
-    console.log("Students in StudentRegistration:", students);
-
+    const users = useSelector(selectUser);
+    const institutions = useSelector(selectInstitutions); // Add this line to select institutions from the store
+    const phases = useSelector(selectPhases);
+    const subGroups = useSelector(selectSubGroups);
+    console.log("subGroups:", subGroups);
     const [form, setForm] = useState({
-        // name: "",
-        // email: "",
+        name: "",
+        email: "",
         user_id: "",
         institution_id: "",
         phase_id: "",
@@ -41,15 +63,29 @@ export default function StudentRegistration() {
 
     useEffect(() => {
         dispatch(fetchStudents());
+        dispatch(fetchAllUser());
+        dispatch(fetchInstitutions());
+        dispatch(fetchPhases());
+        dispatch(fetchSubGroups());
     }, [dispatch]);
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setForm({
-            ...form,
-            [name]: ["user_id", "institution_id", "phase_id", "subgroup_id"].includes(name)
-                ? Number(value)   // convert to number
-                : value,
-        });
+
+        // Only convert number fields
+        if (["user_id", "institution_id", "phase_id", "subgroup_id"].includes(name)) {
+            setForm({
+                ...form,
+                [name]: value === "" ? "" : Number(value),
+            });
+        } else {
+            // name, email → remain string
+            setForm({
+                ...form,
+                [name]: value,
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -58,8 +94,8 @@ export default function StudentRegistration() {
             await dispatch(addStudent(form)).unwrap();
             alert("Student added successfully!");
             setForm({
-                // name: "",
-                // email: "",
+                name: "",
+                email: "",
                 user_id: "",
                 institution_id: "",
                 phase_id: "",
@@ -88,57 +124,135 @@ export default function StudentRegistration() {
                 </CardHeader>
                 <CardContent>
                     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-                        {/* <Input
-              name="name"
-              placeholder="Student Name"
-              value={form.name}
-              onChange={handleChange}
-              required
-            /> */}
-                        {/* <Input
-              type="email"
-              name="email"
-              placeholder="Email"
-              value={form.email}
-              onChange={handleChange}
-              required
-            /> */}
-                        <Input
-                            type="number"
-                            name="user_id"
-                            placeholder="User ID"
-                            value={form.user_id}
-                            onChange={handleChange}
-                            required
-                        />
-                        <Input
-                            type="number"
-                            name="institution_id"
-                            placeholder="Institution ID"
-                            value={form.institution_id}
-                            onChange={handleChange}
-                            required
-                        />
-                        <Input
-                            type="number"
-                            name="phase_id"
-                            placeholder="Phase ID"
-                            value={form.phase_id}
-                            onChange={handleChange}
-                            required
-                        />
-                        <Input
-                            type="number"
-                            name="subgroup_id"
-                            placeholder="SubGroup ID"
-                            value={form.subgroup_id}
-                            onChange={handleChange}
-                            required
-                        />
+
+                        <div className="space-y-2 col-span-1">
+                            <label className="text-sm font-medium">Name</label>
+                            <Input
+                                type="text"
+                                name="name"
+                                placeholder="Enter name"
+                                value={form.name}
+                                onChange={handleChange}
+
+                            />
+                        </div>
+
+                        <div className="space-y-2 col-span-1">
+                            <label className="text-sm font-medium">Email</label>
+                            <Input
+                                type="email"
+                                name="email"
+                                placeholder="Enter email"
+                                value={form.email}
+                                onChange={handleChange}
+
+                            />
+                        </div>
+
+
+
+                        {/* USER DROPDOWN */}
+                        <Select
+                            value={form.user_id ? String(form.user_id) : ""}
+                            onValueChange={(value) =>
+                                setForm({ ...form, user_id: Number(value) })
+                            }
+                        >
+                            <SelectTrigger className="w-[250px]">
+                                <SelectValue placeholder="Select User" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Users</SelectLabel>
+
+                                    {users?.data?.users?.map((u) => (
+                                        <SelectItem key={u.id} value={String(u.id)}>
+                                            {u.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
+
+
+                        {/* INSTITUTION DROPDOWN */}
+
+                        <Select
+                            value={form.institution_id ? String(form.institution_id) : ""}
+                            onValueChange={(value) =>
+                                setForm({ ...form, institution_id: Number(value) })
+                            }
+                        >
+                            <SelectTrigger className="w-[250px]">
+                                <SelectValue placeholder="Select Institution" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Institutions</SelectLabel>
+
+                                    {institutions.map((u) => (
+                                        <SelectItem key={u.id} value={String(u.id)}>
+                                            {u.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
+
+                        {/* PHASE DROPDOWN */}
+                        <Select
+                            value={form.phase_id ? String(form.phase_id) : ""}
+                            onValueChange={(value) =>
+                                setForm({ ...form, phase_id: Number(value) })
+                            }
+                        >
+                            <SelectTrigger className="w-[250px]">
+                                <SelectValue placeholder="Select Phase" />
+                            </SelectTrigger>
+
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Phases</SelectLabel>
+
+                                    {phases.map((u) => (
+                                        <SelectItem key={u.id} value={String(u.id)}>
+                                            {u.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {/* SUBGROUP DROPDOWN */}
+                        <Select
+                            value={form.subgroup_id ? String(form.subgroup_id) : ""}
+                            onValueChange={(value) =>
+                                setForm({ ...form, subgroup_id: Number(value) })
+                            }
+                        >
+                            <SelectTrigger className="w-[250px]">
+                                <SelectValue placeholder="Select SubGroup" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>SubGroups</SelectLabel>
+                                    {subGroups.map((sg) => (
+                                        <SelectItem key={sg.id} value={String(sg.id)}>
+                                            {sg.name}
+                                        </SelectItem>
+                                    ))}
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+
                         <Button type="submit" className="col-span-2">
                             Add Student
                         </Button>
                     </form>
+
                 </CardContent>
             </Card>
 
@@ -160,24 +274,12 @@ export default function StudentRegistration() {
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {students?.data?.registrations.map((s) => (
+                            {students.map((s) => (
                                 <TableRow key={s.id}>
                                     <TableCell>
-                                        <Input
-                                            defaultValue={s.user?.name || ""}
-                                            onBlur={(e) =>
-                                                handleUpdate(s.id, "name", e.target.value)
-                                            }
-                                        />
+                                        {s.user?.name || "-"}
                                     </TableCell>
-                                    {/* <TableCell>
-                    <Input
-                      defaultValue={s.user?.email || ""}
-                      onBlur={(e) =>
-                        handleUpdate(s.id, "email", e.target.value)
-                      }
-                    />
-                  </TableCell> */}
+
                                     <TableCell>{s.institution?.name || "-"}</TableCell>
                                     <TableCell>{s.phase?.name || "-"}</TableCell>
                                     <TableCell>{s.subgroup?.name || "-"}</TableCell>
