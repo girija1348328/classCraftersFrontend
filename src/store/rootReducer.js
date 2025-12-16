@@ -10,7 +10,7 @@ import paymentReducer from "./slices/paymentSlice";
 import institutionReducer from "./slices/institutionSlice";
 import phaseReducer from "./slices/phaseSlice";
 import subGroupReducer from "./slices/subGroupSlice";
-
+import feeStructureReducer from "./slices/feeStructureSlice";
 // import courseReducer from "./slices/courseSlice";
 
 const rootReducer = combineReducers({
@@ -25,6 +25,7 @@ payment: paymentReducer,
 institution: institutionReducer,
 phase: phaseReducer,
 subGroup: subGroupReducer,
+feeStructure: feeStructureReducer,
 //   course: courseReducer,
 });
 
