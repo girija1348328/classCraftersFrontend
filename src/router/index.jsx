@@ -12,6 +12,7 @@ import ManageClassroom from "../pages/classroom/manageClassroom/manageClassroom"
 import PaymentListByInstitutionPage from "../pages/payment/paymentList/paymentListByInstitution";
 import ProfilePage from "@/pages/settings/profile";
 import LoginPage from "@/pages/login";
+import Attendance  from "../pages/students/attendance";
 
 import HorizontalLayout from "@/layouts/horizontal";
 
@@ -53,6 +54,7 @@ const AppRouter = () => {
             <Route element={<ProtectedRoute allowedRoles={["Student", "Teacher", "Admin"]} />}>
               <Route path="/payment/fee-structure" element={<PaymentPage />} />
               <Route path="/settings/profile" element={<ProfilePage />} />
+              <Route path="/students/attendance" element={<Attendance/>}/>
             </Route>
 
           </Route>
