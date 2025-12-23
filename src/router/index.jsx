@@ -5,6 +5,7 @@ import IndexPage from "@/pages/index";
 import UsersPage from "../pages/users";
 import RolesPage from "../pages/roles";
 import StudentPage from "../pages/students";
+import AttendancePage from "../pages/students/attendance";
 import ClassroomPage from "../pages/classroom/index";
 import PaymentPage from "../pages/payment";
 import PaymentListPage from "../pages/payment/paymentList/paymentList";
@@ -12,7 +13,7 @@ import ManageClassroom from "../pages/classroom/manageClassroom/manageClassroom"
 import PaymentListByInstitutionPage from "../pages/payment/paymentList/paymentListByInstitution";
 import ProfilePage from "@/pages/settings/profile";
 import LoginPage from "@/pages/login";
-import Attendance  from "../pages/students/attendance";
+
 
 import HorizontalLayout from "@/layouts/horizontal";
 
@@ -54,7 +55,7 @@ const AppRouter = () => {
             <Route element={<ProtectedRoute allowedRoles={["Student", "Teacher", "Admin"]} />}>
               <Route path="/payment/fee-structure" element={<PaymentPage />} />
               <Route path="/settings/profile" element={<ProfilePage />} />
-              <Route path="/students/attendance" element={<Attendance/>}/>
+              <Route path="/students/attendance" element={<AttendancePage />} />
             </Route>
 
           </Route>
