@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Users,
   CalendarCheck,
@@ -12,8 +13,7 @@ import {
 export default function Attendance() {
   const [openMenu, setOpenMenu] = useState(false);
   const menuRef = useRef(null);
-
-  
+  const navigate = useNavigate(); // 🔥 navigation hook
 
   // Close menu on outside click
   useEffect(() => {
@@ -24,7 +24,8 @@ export default function Attendance() {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    return () =>
+      document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   return (
@@ -56,7 +57,10 @@ export default function Attendance() {
           >
             <button
               className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100 transition"
-              onClick={() => setOpenMenu(false)}
+              onClick={() => {
+                setOpenMenu(false);
+                navigate("/manage-attendance"); // ✅ REDIRECT HERE
+              }}
             >
               Manage Attendance
             </button>
