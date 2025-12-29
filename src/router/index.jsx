@@ -17,6 +17,7 @@ import LoginPage from "@/pages/login";
 import LobbyPage from "../components/videoStream/lobby";
 import RoomPage from "../components/videoStream/room";
 
+import MessengerPage from "../pages/messanger";
 
 
 import HorizontalLayout from "@/layouts/horizontal";
@@ -64,6 +65,9 @@ const AppRouter = () => {
               <Route path="/video-stream/lobby" element={<LobbyPage />} />
               <Route path="/video-stream/room/:roomId" element={<RoomPage />} />
           </Route>
+              <Route path="/students/attendance" element={<AttendancePage />} />
+              <Route path="/messenger/list" element={<MessengerPage />} />
+            </Route>
 
           </Route>
         </Route>
