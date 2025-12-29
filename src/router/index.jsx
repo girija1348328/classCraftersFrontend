@@ -6,6 +6,7 @@ import UsersPage from "../pages/users";
 import RolesPage from "../pages/roles";
 import StudentPage from "../pages/students";
 import AttendancePage from "../pages/students/attendance";
+import ManageAttendancePage from "../pages/students/attendance/mannageAttendance";
 import ClassroomPage from "../pages/classroom/index";
 import PaymentPage from "../pages/payment";
 import PaymentListPage from "../pages/payment/paymentList/paymentList";
@@ -13,6 +14,9 @@ import ManageClassroom from "../pages/classroom/manageClassroom/manageClassroom"
 import PaymentListByInstitutionPage from "../pages/payment/paymentList/paymentListByInstitution";
 import ProfilePage from "@/pages/settings/profile";
 import LoginPage from "@/pages/login";
+import LobbyPage from "../components/videoStream/lobby";
+import RoomPage from "../components/videoStream/room";
+
 import MessengerPage from "../pages/messanger";
 
 
@@ -56,6 +60,11 @@ const AppRouter = () => {
             <Route element={<ProtectedRoute allowedRoles={["Student", "Teacher", "Admin"]} />}>
               <Route path="/payment/fee-structure" element={<PaymentPage />} />
               <Route path="/settings/profile" element={<ProfilePage />} />
+              <Route path="/students/attendance" element={<AttendancePage/>} />
+              <Route path="/students/attendance/manage" element={<ManageAttendancePage />} />
+              <Route path="/video-stream/lobby" element={<LobbyPage />} />
+              <Route path="/video-stream/room/:roomId" element={<RoomPage />} />
+          </Route>
               <Route path="/students/attendance" element={<AttendancePage />} />
               <Route path="/messenger/list" element={<MessengerPage />} />
             </Route>
