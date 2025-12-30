@@ -70,7 +70,7 @@ const AppRouter = () => {
             </Route>
 
           </Route>
-        </Route>
+    
 
       </Routes>
     </BrowserRouter>
