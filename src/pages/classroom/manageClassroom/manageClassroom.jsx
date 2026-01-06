@@ -23,8 +23,10 @@ import { getAssignmentsByClassroomId, createAssignment } from "@/store/slices/as
 import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import LobbyPage from "@/components/videoStream/lobby.jsx";
 import { Excalidraw } from "@excalidraw/excalidraw";
-// Use the package export for the CSS so bundler        s (Vite) can resolve it via the package's "exports" field.
 import "@excalidraw/excalidraw/index.css";
+import QuizAttempt from "../quizAttempt/quizAttempt.jsx";   
+
+
 
 const ManageClassrooms = () => {
     const [joining, setJoining] = useState(false);
@@ -251,6 +253,7 @@ const ManageClassrooms = () => {
                     <TabsList className="flex justify-start gap-4 border-b p-2">
                         <TabsTrigger value="stream">Stream</TabsTrigger>
                         <TabsTrigger value="classwork">Classwork</TabsTrigger>
+                        <TabsTrigger value="quiz">Quiz</TabsTrigger>
                         <TabsTrigger value="people">People</TabsTrigger>
                         <TabsTrigger value="marks">Marks</TabsTrigger>
                         <TabsTrigger value="whiteboard">Whiteboard</TabsTrigger>
@@ -335,6 +338,11 @@ const ManageClassrooms = () => {
                         ) : (
                             <p>No assignments yet.</p>
                         )}
+                    </TabsContent>
+                    
+                    {/* Quiz Tab */}
+                    <TabsContent value="quiz" className="p-4">
+                        <QuizAttempt classroomId={id} />
                     </TabsContent>
 
                     {/* People Tab */}
