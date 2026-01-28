@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
-
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -31,6 +30,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { format } from "date-fns";
+import { CalendarIcon } from "lucide-react";
 
 import {
   createEnquiry,
@@ -39,14 +46,23 @@ import {
 } from "@/store/slices/frontOfficeSlice";
 
 import {
+  getClassroom
+} from "@/store/slices/classRoomSlice";
+
+import {
   selectEnquiries,
   selectFrontOfficeLoading,
 } from "@/store/selectors/frontOfficeSelectors";
 
+import {
+  selectClassrooms
+} from "@/store/selectors/classRoomSelectors";
+
 const EnquiryPage = () => {
   const dispatch = useDispatch();
   const enquiries = useSelector(selectEnquiries);
-  console.log("Enquiries Data:", enquiries);
+  const classroom = useSelector(selectClassrooms);
+  console.log("classrooms", classroom);
   const loading = useSelector(selectFrontOfficeLoading);
 
   const { register, handleSubmit, reset, setValue } = useForm();
@@ -64,6 +80,7 @@ const EnquiryPage = () => {
   ======================== */
   useEffect(() => {
     dispatch(getAllEnquiries());
+    dispatch(getClassroom());
   }, [dispatch]);
 
   /* =======================
@@ -119,8 +136,9 @@ const EnquiryPage = () => {
   return (
     <div className="max-w-7xl mx-auto p-6 space-y-10">
 
-      {/* ================= CREATE ENQUIRY BUTTON ================= */}
-      <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl font-bold text-gray-900">Enquiries</h1>
+         <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogTrigger asChild>
           <Button>Create Enquiry</Button>
         </DialogTrigger>
@@ -165,9 +183,9 @@ const EnquiryPage = () => {
             />
 
             <div className="md:col-span-2 flex gap-3">
-              <Button 
+              <Button
                 type="submit"
-                className="flex-1" 
+                className="flex-1"
                 disabled={loading}
               >
                 {loading ? "Saving..." : "Create Enquiry"}
@@ -184,20 +202,33 @@ const EnquiryPage = () => {
           </form>
         </DialogContent>
       </Dialog>
+      </div>
+      {/* ================= CREATE ENQUIRY BUTTON ================= */}
+     
 
       {/* ================= FILTERS ================= */}
       <Card>
         <CardHeader>
           <CardTitle>Filter Enquiries</CardTitle>
         </CardHeader>
-        <CardContent className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          <Input
-            placeholder="Classroom ID"
+        <CardContent className="grid grid-cols-1 md:grid-cols-6 gap-4">
+          <Select
             value={filters.classroomId}
-            onChange={(e) =>
-              setFilters({ ...filters, classroomId: e.target.value })
+            onValueChange={(value) =>
+              setFilters((prev) => ({ ...prev, classroomId: value }))
             }
-          />
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Select Classroom" />
+            </SelectTrigger>
+            <SelectContent>
+              {classroom?.map((cls) => (
+                <SelectItem key={cls.id} value={cls.id}>
+                  {cls.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
 
           <Select
             value={filters.status}
@@ -214,30 +245,71 @@ const EnquiryPage = () => {
             </SelectContent>
           </Select>
 
-          <Input
-            type="date"
-            value={filters.fromDate}
-            onChange={(e) =>
-              setFilters({ ...filters, fromDate: e.target.value })
-            }
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {filters.fromDate
+                  ? format(new Date(filters.fromDate), "PPP")
+                  : "From Date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={filters.fromDate ? new Date(filters.fromDate) : undefined}
+                onSelect={(date) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    fromDate: date ? format(date, "yyyy-MM-dd") : "",
+                  }))
+                }
+                disabled={(date) =>
+                  filters.toDate && date > new Date(filters.toDate)
+                }
+              />
+            </PopoverContent>
+          </Popover>
 
-          <Input
-            type="date"
-            value={filters.toDate}
-            onChange={(e) =>
-              setFilters({ ...filters, toDate: e.target.value })
-            }
-          />
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button
+                variant="outline"
+                className="w-full justify-start text-left font-normal"
+              >
+                <CalendarIcon className="mr-2 h-4 w-4" />
+                {filters.toDate
+                  ? format(new Date(filters.toDate), "PPP")
+                  : "To Date"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-auto p-0" align="start">
+              <Calendar
+                mode="single"
+                selected={filters.toDate ? new Date(filters.toDate) : undefined}
+                onSelect={(date) =>
+                  setFilters((prev) => ({
+                    ...prev,
+                    toDate: date ? format(date, "yyyy-MM-dd") : "",
+                  }))
+                }
+                disabled={(date) =>
+                  filters.fromDate && date < new Date(filters.fromDate)
+                }
+              />
+            </PopoverContent>
+          </Popover>
 
-          <div className="flex gap-2">
-            <Button onClick={applyFilter} className="w-full">
-              Apply
-            </Button>
-            {/* <Button variant="outline" onClick={resetFilter} className="w-full">
-              Reset
-            </Button> */}
-          </div>
+          <Button onClick={applyFilter} className="w-full">
+            Apply
+          </Button>
+
+          <Button variant="outline" onClick={resetFilter} className="w-full">
+            Reset
+          </Button>
         </CardContent>
       </Card>
 
@@ -258,7 +330,7 @@ const EnquiryPage = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {enquiries.length === 0 && (
+              {enquiries.length == 0 && (
                 <TableRow>
                   <TableCell colSpan={5} className="text-center">
                     No enquiries found
@@ -285,6 +357,7 @@ const EnquiryPage = () => {
       </Card>
 
     </div>
+
   );
 };
 

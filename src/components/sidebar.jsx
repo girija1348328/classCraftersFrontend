@@ -32,6 +32,10 @@ const Sidebar = () => {
       icon: <Presentation size={20} />,
       children: [
         { href: "/front-office/enquiries", label: "Enquiries" },
+        { href: "/front-office/visitor-book", label: "Visitor Book" },
+        { href: "/front-office/dispatch", label: "Dispatch" },
+        { href: "/front-office/receive", label: "Receive" },
+        { href: "/front-office/complain", label: "Complain" },
       ],
     },
     {
