@@ -24,7 +24,7 @@ import { ZegoUIKitPrebuilt } from "@zegocloud/zego-uikit-prebuilt";
 import LobbyPage from "@/components/videoStream/lobby.jsx";
 import { Excalidraw } from "@excalidraw/excalidraw";
 import "@excalidraw/excalidraw/index.css";
-import QuizAttempt from "../quizAttempt/quizAttempt";   
+import QuizAttempt from "../quizattempt/quizattempt";   
 import {selectClassroomQuizzes} from "@/store/selectors/quizSelectors";
 
 
