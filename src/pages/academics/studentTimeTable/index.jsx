@@ -1,9 +1,14 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { getClassroom } from "@/store/slices/classroomSlice";
-import { fetchTimetables } from "@/store/slices/timeTableSlice";
+import {
+  createClassroom,
+  getClassroom,
+  updateClassroom,
+  deleteClassroom,
+} from "@/store/slices/classRoomSlice";
 
+import { fetchTimetables } from "@/store/slices/timeTableSlice";
 import {
   Card,
   CardHeader,
