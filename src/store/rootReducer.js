@@ -14,6 +14,8 @@ import feeStructureReducer from "./slices/feeStructureSlice";
 import attendanceReducer from "./slices/attendanceSlice";
 import quizReducer from "./slices/quizSlice";
 import frontOfficeReducer from "./slices/frontOfficeSlice";
+import timeTableReducer from "./slices/timeTableSlice";
+import staffReducer from "./slices/staffSlice";
 // import courseReducer from "./slices/courseSlice";
 
 const rootReducer = combineReducers({
@@ -23,6 +25,7 @@ classroom: classRoomReducer,
 jitsi: jitsiReducer,
 auth: authReducer,
 student: studentReducer,
+staff: staffReducer,
 assignment: assignmentReducer,
 payment: paymentReducer,
 institution: institutionReducer,
@@ -32,6 +35,7 @@ feeStructure: feeStructureReducer,
 attendance: attendanceReducer,
 quiz: quizReducer,
 frontOffice: frontOfficeReducer,
+timeTable: timeTableReducer,
 //   course: courseReducer,
 });
 

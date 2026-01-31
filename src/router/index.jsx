@@ -23,8 +23,10 @@ import PostalReceive from "../pages/frontOffice/receive";
 import ComplainPage from "../pages/frontOffice/complain";
 import MessengerPage from "../pages/messanger";
 import Admission from "../pages/students/admission";
-import StudentDetails from "../pages/students/studentDetails"
-
+import StudentDetails from "../pages/students/studentDetails";
+import Subjects from "../pages/academics/subjects";
+import TeacherTimeTable from "../pages/academics/teacherTimeTable";
+import StudentTimeTable from "../pages/academics/studentTimeTable";
 
 import HorizontalLayout from "@/layouts/horizontal";
 
@@ -77,6 +79,9 @@ const AppRouter = () => {
               <Route path="/front-office/dispatch" element={<Dispatch />} />
               <Route path="/front-office/receive" element={<PostalReceive />} />  
               <Route path="/front-office/complain" element={<ComplainPage />} />
+              <Route path="/teacher/timetable" element={<TeacherTimeTable />} />
+              <Route path="/student/timetable" element={<StudentTimeTable />} />
+              <Route path="/subjects" element={<Subjects />} />
 
             </Route>
             <Route path="/students/attendance" element={<AttendancePage />} />

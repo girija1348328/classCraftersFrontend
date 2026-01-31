@@ -31,3 +31,30 @@ export const deleteClassroom = async (id) => {
   const response = await axios.delete(`${API_URL}/classrooms/${id}`);
   return response.data;
 }
+
+export const createSubject = async (subjectData,id) => {
+  const response = await axios.post(`${API_URL}/classrooms/subject/${id}`, subjectData);
+  return response.data;
+}
+
+export const getAllSubjects = async () => {
+  const response = await axios.get(`${API_URL}/classrooms/allSubjects`);
+  return response.data;
+}
+
+export const getSubjectById = async (id) => {
+  const response = await axios.get(`${API_URL}/subjects/${id}`);
+  return response.data;
+}
+
+export const updateSubject = async (id, updates) => {
+  const response = await axios.put(`${API_URL}/subjects/${id}`, updates);
+  return response.data;
+}
+
+export const deleteSubject = async (id) => {
+  const response = await axios.delete(`${API_URL}/subjects/${id}`);
+  return response.data; 
+
+    
+}

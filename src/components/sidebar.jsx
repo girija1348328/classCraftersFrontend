@@ -55,6 +55,17 @@ const Sidebar = () => {
     },
 
     {
+      label: "Academics",
+      icon: <School size={20} />,
+      children: [
+        { href: "/student/timetable", label: "Student Timetable" },
+        { href: "/teacher/timetable", label: "Teacher Timetable" },
+        { href: "/classrooms/list", label: "Classrooms" },
+        { href: "/subjects", label: "Subjects" },
+      ],
+    },
+
+    {
       label: "Payment",
       icon: <Receipt size={20} />,
       children: [
@@ -64,7 +75,7 @@ const Sidebar = () => {
       ],
     },
 
-        {
+    {
       label: "Messenger",
       icon: <Settings size={20} />,
       children: [
@@ -126,9 +137,8 @@ const Sidebar = () => {
                 // 🔥 DIRECT NAVIGATION PAGE LINK
                 <Link
                   to={item.href}
-                  className={`flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 cursor-pointer ${
-                    !isOpen ? "justify-center" : ""
-                  }`}
+                  className={`flex items-center gap-3 text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 cursor-pointer ${!isOpen ? "justify-center" : ""
+                    }`}
                 >
                   {item.icon}
                   {isOpen && <span>{item.label}</span>}
@@ -137,9 +147,8 @@ const Sidebar = () => {
                 // 🔥 MENU WITH CHILDREN (toggle only)
                 <motion.div
                   onClick={() => toggleSubMenu(item.label)}
-                  className={`flex items-center justify-between text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 cursor-pointer ${
-                    !isOpen ? "justify-center" : ""
-                  }`}
+                  className={`flex items-center justify-between text-gray-700 hover:bg-blue-50 hover:text-[#557A66] rounded px-3 py-2 cursor-pointer ${!isOpen ? "justify-center" : ""
+                    }`}
                 >
                   <div className="flex items-center gap-3">
                     {item.icon}
