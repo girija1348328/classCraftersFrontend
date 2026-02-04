@@ -41,7 +41,6 @@ export default function ClassroomPage() {
 
   const [classes, setClasses] = useState({
     name: "",
-    subject: "",
     description: "",
     teacherId: 1,
   });
@@ -135,13 +134,7 @@ export default function ClassroomPage() {
                     setClasses({ ...classes, name: e.target.value })
                   }
                 />
-                <Input
-                  placeholder="Subject"
-                  value={classes.subject}
-                  onChange={(e) =>
-                    setClasses({ ...classes, subject: e.target.value })
-                  }
-                />
+          
                 <Input
                   placeholder="Description"
                   value={classes.description}

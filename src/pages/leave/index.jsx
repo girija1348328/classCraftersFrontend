@@ -55,7 +55,7 @@ export default function LeaveManagement() {
   const dispatch = useDispatch();
 
   const leaves = useSelector(selectLeaves);
-  console.log("Leaves:", leaves);
+  // console.log("Leaves:", leaves);
   const loading = useSelector(selectLeavesLoading);
   const error = useSelector(selectLeavesError);
 
@@ -270,6 +270,8 @@ export default function LeaveManagement() {
           <TableHeader>
             <TableRow>
               <TableHead>#</TableHead>
+              <TableHead>Applied By</TableHead>
+              <TableHead>Reviewed By</TableHead>
               <TableHead>Leave Type</TableHead>
               <TableHead>From</TableHead>
               <TableHead>To</TableHead>
@@ -290,9 +292,13 @@ export default function LeaveManagement() {
             {leaves?.data?.leaves?.map((leave, index) => (
               <TableRow key={leave.id}>
                 <TableCell>{index + 1}</TableCell>
+                     <TableCell>{leave.applicant.name || "-"}</TableCell>
+                <TableCell>{leave.reviewedBy.name || "-"}</TableCell>
                 <TableCell>{leave.leaveType}</TableCell>
-                <TableCell>{leave.startDate}</TableCell>
-                <TableCell>{leave.endDate}</TableCell>
+           
+                <TableCell>{(leave.startDate).slice(0, 10)}</TableCell>
+                <TableCell>{(leave.endDate).slice(0, 10)}</TableCell>
+                {/* <TableCell>{leave.endDate}</TableCell> */}
                 <TableCell>
                   <Badge
                     variant={
