@@ -68,6 +68,7 @@ const formSchema = z.object({
         name: z.string().min(3, "Name is required"),
         code: z.string().min(3, "Code is required"),
         description: z.string().optional(),
+        total_amount: z.number().positive("Amount must be greater than 0"),
         // phase_id: z.number().optional(),
         // subgroup_id: z.number().optional(),
     }),
@@ -129,6 +130,7 @@ function FeeStructureModal({ open, onClose }) {
                 name: "",
                 code: "",
                 description: "",
+                total_amount: null,
                 phase_id: null,
                 subgroup_id: null,
             },
@@ -339,6 +341,15 @@ function FeeStructureModal({ open, onClose }) {
                                     <input
                                         {...register("fee_structure.description")}
                                         placeholder="Optional description"
+                                        className={inputClass}
+                                    />
+                                </div>
+
+                                <div>
+                                    <label className={sectionTitle}>Amount</label>
+                                    <input
+                                        {...register("fee_structure.total_amount", { valueAsNumber: true })}
+                                        placeholder="Amount"
                                         className={inputClass}
                                     />
                                 </div>
