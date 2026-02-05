@@ -16,8 +16,7 @@ import ProfilePage from "@/pages/settings/profile";
 import LoginPage from "@/pages/login";
 import LobbyPage from "../components/videoStream/lobby";
 import RoomPage from "../components/videoStream/room";
-import LeaveManagement from "@/pages/academics/LeaveManagement";
-
+import LeaveManagement from "@/pages/leave";
 import EnquiryPage from "../pages/frontOffice/enquiry";
 import VisitorBook from "../pages/frontOffice/visitorBook";
 import Dispatch from "../pages/frontOffice/dispatch";
@@ -29,6 +28,11 @@ import StudentDetails from "../pages/students/studentDetails";
 import Subjects from "../pages/academics/subjects";
 import TeacherTimeTable from "../pages/academics/teacherTimeTable";
 import StudentTimeTable from "../pages/academics/studentTimeTable";
+import AssignFees from "../pages/payment/assignFees";
+import ManageAssign from "../pages/payment/assignFees/manageAssign";
+import CollectFees from "../pages/payment/collectFees";
+import ManageCollect from "../pages/payment/collectFees/manageCollect";
+import SearchDueFees from "../pages/payment/searchDueFees";
 
 import HorizontalLayout from "@/layouts/horizontal";
 
@@ -74,6 +78,12 @@ const AppRouter = () => {
                 path="/payment/payments/:institution_id"
                 element={<PaymentListByInstitutionPage />}
               />
+
+              <Route path="/payment/assign-fees" element={<AssignFees />} />
+              <Route path="/payment/assign-fees/:id" element={<ManageAssign />} />
+              <Route path="/payment/collect-fees" element={<CollectFees />} />
+              <Route path="/payment/collect-fees/:id" element={<ManageCollect />} />
+              <Route path="/payment/search-due-fees" element={<SearchDueFees />} />
             </Route>
 
             {/* STUDENT + TEACHER + ADMIN */}

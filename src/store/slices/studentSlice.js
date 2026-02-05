@@ -47,6 +47,7 @@ const studentSlice = createSlice({
     list: [],
     filterlist: [],
     listById: [],
+    selectedStudent: null,
     status: "idle",
   },
   reducers: {},
@@ -70,11 +71,10 @@ const studentSlice = createSlice({
         state.filterlist = action.payload.data.registrations;
       })
 
-    builder
       .addCase(fetchStudentsById.fulfilled, (state, action) => {
-        state.listById = action.payload.data.registration;
-      })
-      ;
+        state.selectedStudent = action.payload.data.registration;
+      });
+    ;
   },
 });
 
