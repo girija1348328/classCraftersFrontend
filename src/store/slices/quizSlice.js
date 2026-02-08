@@ -169,7 +169,7 @@ const quizSlice = createSlice({
             })
             .addCase(getClassroomQuizzes.fulfilled, (state, action) => {
                 state.loading = false;
-                state.classroomQuizzes = action.payload;
+                state.classroomQuizzes = action.payload.quizzes || [];
             })
             .addCase(getClassroomQuizzes.rejected, (state, action) => {
                 state.loading = false;

@@ -59,7 +59,7 @@ export const getQuiz = async (quizId) => {
 };
 
 export const getClassroomQuizzes = async (id) => {
-    // console.log("classroomId from service",classroomId)
+    // console.log("classroomId from service",id)
     const res = await axios.get(
         `${API_BASE_URL}/quizzes/classrooms/${id}/quizzes`,
         {

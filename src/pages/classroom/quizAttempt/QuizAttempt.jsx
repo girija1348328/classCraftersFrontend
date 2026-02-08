@@ -24,10 +24,10 @@ import {
 
 const QuizAttempt = ({ quizzData }) => {
     console.log("Classroom quizz data", quizzData);
-    const quizId = 1; // TEMPORARY FIX FOR TESTING
+    const quizId = 2; // TEMPORARY FIX FOR TESTING
     const dispatch = useDispatch();
     const quiz = useSelector(selectQuiz);
-    console.log("Quiz Data:", quiz);
+    // console.log("Quiz Data:", quiz);
     const loading = useSelector(selectQuizLoading);
     const error = useSelector(selectQuizError);
     const attemptId = useSelector(selectAttemptId);
@@ -97,7 +97,7 @@ const QuizAttempt = ({ quizzData }) => {
 
     /* ================= UI STATES ================= */
     if (loading) return <p className="text-center">Loading quiz...</p>;
-    if (error) return <p className="text-red-600">{error}</p>;
+    if (error) return <p className="text-red-600">{error.message}</p>;
     if (!quiz) return null;
 
     return (
